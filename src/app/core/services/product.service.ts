@@ -16,8 +16,9 @@ export class ProductService {
 
   // Obtener todos los productos
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl)
+    return this.http.get<any>(this.apiUrl)
       .pipe(
+        map(response => response.data),
         tap(data => {
           if (!environment.production) {
             console.log('Products fetched:', data);
@@ -68,9 +69,8 @@ export class ProductService {
 
   // Verificar si un ID existe
   verifyProductId(id: string): Observable<boolean> {
-    return this.http.get<{ exists: boolean }>(`${this.apiUrl}/verification/${id}`)
+    return this.http.get<boolean>(`${this.apiUrl}/verification/${id}`)
       .pipe(
-        map(res => res.exists),
         tap(exists => {
           if (!environment.production) {
             console.log(`ID verification for ${id}: ${exists}`);

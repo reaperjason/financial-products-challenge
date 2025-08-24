@@ -29,7 +29,6 @@
 
   <div class="footer">
     <p>{{ filteredProducts.length }} Resultados</p>
-    <label for="pageSize">Mostrar:</label>
     <select id="pageSize" [(ngModel)]="pageSize" (ngModelChange)="applyFilterAndPagination()">
       <option value="5">5</option>
       <option value="10">10</option>
