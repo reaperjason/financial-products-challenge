@@ -1,1 +1,39 @@
-<p>product-list works!</p>
+<div class="product-list-container">
+  <!-- Barra de búsqueda y acción -->
+  <div class="search-and-add">
+    <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (ngModelChange)="applyFilterAndPagination()">
+    <button class="add-button" (click)="goToNewProduct()">Agregar</button>
+  </div>
+  <!-- Tabla de productos -->
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nombre del producto</th>
+        <th>Descripción</th>
+        <th>Fecha de liberación</th>
+        <th>Fecha de reestructuración</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of displayedProducts">
+        <app-product-item [product]="product" (edit)="editProduct($event)" (delete)="deleteProduct($event)">
+        </app-product-item>
+      </tr>
+      <tr *ngIf="displayedProducts.length === 0">
+        <td colspan="7">No se encontraron productos.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <p>{{ filteredProducts.length }} Resultados</p>
+    <label for="pageSize">Mostrar:</label>
+    <select id="pageSize" [(ngModel)]="pageSize" (ngModelChange)="applyFilterAndPagination()">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+    </select>
+  </div>
+</div>
