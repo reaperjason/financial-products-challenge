@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, debounceTime, distinctUntilChanged, first, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, first, map, Observable, of, startWith, switchMap, take } from 'rxjs';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Product } from '../../models/product.model';
 import { dateReleaseValidator, dateRevisionValidator } from 'src/app/core/validators/date.validators';
@@ -76,7 +76,7 @@ export class ProductFormComponent implements OnInit {
           Validators.minLength(3),
           Validators.maxLength(10)
         ],
-        asyncValidators: this.isEditMode ? null : [this.idValidator()],
+        asyncValidators: this.isEditMode ? null : [this.idValidator().bind(this)],
         updateOn: 'blur'
       }],
       name: ['', [
@@ -127,22 +127,30 @@ export class ProductFormComponent implements OnInit {
 
 
   // Validador asíncrono para el ID
-  idValidator() {
+  idValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      // Si está en modo edición, no valida la unicidad del ID
-      if (this.isEditMode) {
+      if (this.isEditMode || control.disabled) {
         return of(null);
       }
-      return of(control.value).pipe(
+
+      if (!control.value) {
+        return of(null);
+      }
+
+      return control.valueChanges.pipe(
+        startWith(control.value),
+        filter((value: string) => !!value),
         debounceTime(500),
         distinctUntilChanged(),
         switchMap(id => {
-          if (!id) return of(null);
+          if (!id) {
+            return of(null);
+          }
           return this.productService.verifyProductId(id).pipe(
-            map(exists => exists ? { idExists: true } : null),
-            first()
+            map(exists => exists ? { idExists: true } : null)
           );
-        })
+        }),
+        take(1)
       );
     };
   }
