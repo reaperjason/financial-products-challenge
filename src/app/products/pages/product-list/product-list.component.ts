@@ -16,6 +16,9 @@ export class ProductListComponent implements OnInit {
   searchTerm: string = '';
   pageSize: number = 5;
 
+  //control skeleton de tabla
+  isLoading = true;
+
   constructor(
     private productService: ProductService,
     private router: Router,
@@ -27,21 +30,27 @@ export class ProductListComponent implements OnInit {
   }
 
   loadProducts(): void {
+    this.isLoading = true;
     this.productService.getProducts().subscribe({
       next: (data) => {
         this.products = data;
         this.applyFilterAndPagination();
+        this.isLoading = false;
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+      }
     });
   }
 
   applyFilterAndPagination(): void {
-    // Filtro por nombre
+    // Filtro por nombre y descripcion
     this.filteredProducts = this.products.filter(p =>
-      p.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      p.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      p.description.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
-    // Paginar según pageSize (por simplicidad se muestra solo la primera página)
+    // Paginar según pageSize
     this.displayedProducts = this.filteredProducts.slice(0, this.pageSize);
   }
 

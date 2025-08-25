@@ -5,35 +5,61 @@
     <button class="add-button" (click)="goToNewProduct()">Agregar</button>
   </div>
   <!-- Tabla de productos -->
-  <table class="product-table">
-    <thead>
-      <tr>
-        <th>Logo</th>
-        <th>Nombre del producto</th>
-        <th>Descripción</th>
-        <th>Fecha de liberación</th>
-        <th>Fecha de reestructuración</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of displayedProducts">
-        <td><img [src]="product.logo" alt="Logo" class="product-logo"></td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.description }}</td>
-        <td>{{ product.date_release | date:'shortDate' }}</td>
-        <td>{{ product.date_revision | date:'shortDate' }}</td>
-        <td>
-          <app-options-menu [options]="options" (optionSelected)="onOptionSelected($event, product)">
-          </app-options-menu>
-        </td>
-      </tr>
+  <div *ngIf="!isLoading; else loadingSkeleton">
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Logo</th>
+          <th>Nombre del producto</th>
+          <th>Descripción</th>
+          <th>Fecha de liberación</th>
+          <th>Fecha de reestructuración</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of displayedProducts">
+          <td><img [src]="product.logo" alt="Logo" class="product-logo"></td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.date_release | date:'shortDate' }}</td>
+          <td>{{ product.date_revision | date:'shortDate' }}</td>
+          <td>
+            <app-options-menu [options]="options" (optionSelected)="onOptionSelected($event, product)">
+            </app-options-menu>
+          </td>
+        </tr>
 
-      <tr *ngIf="displayedProducts.length === 0">
-        <td colspan="7">No se encontraron productos.</td>
-      </tr>
-    </tbody>
-  </table>
+        <tr *ngIf="displayedProducts.length === 0">
+          <td colspan="7">No se encontraron productos.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- skeleton -->
+  <ng-template #loadingSkeleton>
+    <div class="skeleton-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Logo</th>
+            <th>Nombre del producto</th>
+            <th>Descripción</th>
+            <th>Fecha de liberación</th>
+            <th>Fecha de reestructuración</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of [1, 2, 3, 4, 5]">
+            <td *ngFor="let j of [1, 2, 3, 4, 5, 6]">
+              <div class="skeleton-placeholder"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-template>
 
   <div class="footer">
     <p>{{ filteredProducts.length }} Resultados</p>

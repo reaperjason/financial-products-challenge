@@ -58,3 +58,41 @@
   align-items: center;
   margin-top: 20px;
 }
+
+//Skeleton styles
+.skeleton-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.skeleton-table td {
+  height: 50px;
+  border-bottom: 1px solid #ddd;
+  padding: 8px 12px;
+}
+
+.skeleton-placeholder {
+  height: 20px;
+  width: 80%;
+  background: linear-gradient(-90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
+  background-size: 400% 400%;
+  animation: loading 1.2s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+.skeleton-table tr:nth-child(2) .skeleton-placeholder {
+  width: 70%;
+}
+
+.skeleton-table tr:nth-child(3) .skeleton-placeholder {
+  width: 90%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
