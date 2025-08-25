@@ -5,5 +5,6 @@ module.exports = {
     '^src/(.*)$': '<rootDir>/src/$1',
     "^src/environments/environment$": "<rootDir>/src/environments/environment.ts"
   },
-  maxWorkers: 1
+  maxWorkers: 1,
+  collectCoverage: true
 };
