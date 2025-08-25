@@ -76,7 +76,7 @@ export class ProductFormComponent implements OnInit {
           Validators.minLength(3),
           Validators.maxLength(10)
         ],
-        asyncValidators: [this.idValidator()],
+        asyncValidators: this.isEditMode ? null : [this.idValidator()],
         updateOn: 'blur'
       }],
       name: ['', [
@@ -93,14 +93,14 @@ export class ProductFormComponent implements OnInit {
         Validators.required,
         Validators.pattern(/https?:\/\/.+\.(jpg|jpeg|png|gif|svg)$/i)
       ]],
-      date_release: ['', [
-        Validators.required,
-        dateReleaseValidator()
-      ]],
-      date_revision: [{ value: '', disabled: true }, [
-        Validators.required,
-        dateRevisionValidator(() => this.productForm.get('date_release')?.value)
-      ]]
+      date_release: ['', this.isEditMode ?
+        [Validators.required] :
+        [Validators.required, dateReleaseValidator()]
+      ],
+
+      date_revision: [{ value: '', disabled: true }, this.isEditMode ?
+        [Validators.required] :
+        [Validators.required, dateRevisionValidator(() => this.productForm.get('date_release')?.value)]]
     });
 
     if (this.isEditMode) {
