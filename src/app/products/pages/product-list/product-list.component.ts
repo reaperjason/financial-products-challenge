@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product.model';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Router } from '@angular/router';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-product-list',
@@ -15,7 +16,11 @@ export class ProductListComponent implements OnInit {
   searchTerm: string = '';
   pageSize: number = 5;
 
-  constructor(private productService: ProductService, private router: Router) { }
+  constructor(
+    private productService: ProductService,
+    private router: Router,
+    private modalService: ModalService
+  ) { }
 
   ngOnInit(): void {
     this.loadProducts();
@@ -48,13 +53,16 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(['/products/edit', product.id]);
   }
 
-  deleteProduct(product: Product): void {
-    if (confirm(`¿Eliminar el producto "${product.name}"?`)) {
-      this.productService.deleteProduct(product.id).subscribe({
-        next: () => this.loadProducts(),
-        error: (err) => console.error(err)
-      });
-    }
+  deleteProduct(productId: string): void {
+    this.productService.deleteProduct(productId).subscribe({
+      next: () => this.loadProducts(),
+      error: (err) => console.error(err)
+    });
+  }
+
+  openDeleteModal(product: Product): void {
+    console.log('open deleyte modal');
+    this.modalService.open({ name: product.name, id: product.id });
   }
 
   //Menu dropdown
@@ -67,7 +75,7 @@ export class ProductListComponent implements OnInit {
     if (option === 'edit') {
       this.editProduct(product);
     } else if (option === 'delete') {
-      this.deleteProduct(product);
+      this.openDeleteModal(product);
     }
   }
 }

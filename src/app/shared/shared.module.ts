@@ -1,25 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from './components/modal/modal.component';
 import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { HeaderComponent } from './components/header/header.component';
 import { OptionsMenuComponent } from './components/options-menu/options-menu.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 
 
 @NgModule({
   declarations: [
-    ModalComponent,
+    ConfirmationModalComponent,
     SkeletonComponent,
     HeaderComponent,
-    OptionsMenuComponent
+    OptionsMenuComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
     HeaderComponent,
-    OptionsMenuComponent
+    OptionsMenuComponent,
+    ConfirmationModalComponent
   ]
 })
 export class SharedModule { }
