@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
 body {
   font-family: "Roboto", sans-serif;
   background-color: #f5f5f5;
@@ -71,4 +73,25 @@ button {
 
 .btn-confirm {
   background-color: #ffde1f;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0 2px 4px #0000001a;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+search-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px #007bff40;
+}
+
+search-input::placeholder {
+  color: #999;
+  font-style: italic;
 }

@@ -11,10 +11,15 @@
   margin-bottom: 20px;
 }
 
+.add-button {
+  width: auto;
+}
+
 .search-and-add {
   display: flex;
   gap: 10px;
   justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .product-table {
@@ -50,13 +55,38 @@
     display: block;
     margin: auto;
   }
+  .product-table__column--logo {
+    text-align: center;
+  }
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  padding: 16px 0;
+}
+
+.footer p {
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.footer select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+
+.footer select:hover {
+  border-color: #999;
 }
 
 //Skeleton styles

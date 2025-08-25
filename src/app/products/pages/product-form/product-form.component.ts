@@ -56,8 +56,15 @@ export class ProductFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.productId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.productId;
+    const urlSegment = this.route.snapshot.url[0]?.path;
+    this.isEditMode = urlSegment !== 'new';
+    if (this.isEditMode) {
+      this.productId = this.route.snapshot.paramMap.get('id');
+      if (!this.productId) {
+        this.router.navigate(['/products']);
+        return;
+      }
+    }
     this.initForm();
   }
 
@@ -98,13 +105,16 @@ export class ProductFormComponent implements OnInit {
 
     if (this.isEditMode) {
       this.productForm.get('id')?.disable();
-      // Corrected logic for loading data in edit mode
       this.productService.getProducts().subscribe(products => {
         const productToEdit = products.find(p => p.id === this.productId);
         if (productToEdit) {
-          this.productForm.patchValue(productToEdit);
+          const formattedProduct = { ...productToEdit };
+
+          // Formatear las fechas al formato 'yyyy-MM-dd'
+          formattedProduct.date_release = this.formatDate(productToEdit.date_release);
+          formattedProduct.date_revision = this.formatDate(productToEdit.date_revision);
+          this.productForm.patchValue(formattedProduct);
         } else {
-          // Handle case where product is not found (e.g., redirect to list)
           this.router.navigate(['/products']);
         }
       });
@@ -192,6 +202,22 @@ export class ProductFormComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  formatDate(date: string): string {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    if (day.length < 2) {
+      day = '0' + day;
+    }
+
+    return [year, month, day].join('-');
   }
 
   get id() {

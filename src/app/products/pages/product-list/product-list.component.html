@@ -1,15 +1,16 @@
 <div class="product-list-container">
   <!-- Barra de búsqueda y acción -->
   <div class="search-and-add">
-    <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (ngModelChange)="applyFilterAndPagination()">
-    <button class="add-button" (click)="goToNewProduct()">Agregar</button>
+    <input class="search-input" type="text" placeholder="Buscar..." [(ngModel)]="searchTerm"
+      (ngModelChange)="applyFilterAndPagination()">
+    <button class="add-button btn btn-confirm" (click)="goToNewProduct()">Agregar</button>
   </div>
   <!-- Tabla de productos -->
   <div *ngIf="!isLoading; else loadingSkeleton">
     <table class="product-table">
       <thead>
         <tr>
-          <th>Logo</th>
+          <th class="product-table__column--logo">Logo</th>
           <th>Nombre del producto</th>
           <th>Descripción</th>
           <th>Fecha de liberación</th>
@@ -19,7 +20,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let product of displayedProducts">
-          <td><img [src]="product.logo" alt="Logo" class="product-logo"></td>
+          <td class="product-table__column--logo"><img [src]="product.logo" alt="Logo" class="product-logo"></td>
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
           <td>{{ product.date_release | date:'shortDate' }}</td>
@@ -62,8 +63,8 @@
   </ng-template>
 
   <div class="footer">
-    <p>{{ filteredProducts.length }} Resultados</p>
-    <select id="pageSize" [(ngModel)]="pageSize" (ngModelChange)="applyFilterAndPagination()">
+    <p><b>{{ filteredProducts.length }} Resultados</b></p>
+    <select id="pageSize" class="select" [(ngModel)]="pageSize" (ngModelChange)="applyFilterAndPagination()">
       <option value="5">5</option>
       <option value="10">10</option>
       <option value="20">20</option>
