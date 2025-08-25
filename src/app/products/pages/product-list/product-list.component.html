@@ -18,9 +18,17 @@
     </thead>
     <tbody>
       <tr *ngFor="let product of displayedProducts">
-        <app-product-item [product]="product" (edit)="editProduct($event)" (delete)="deleteProduct($event)">
-        </app-product-item>
+        <td><img [src]="product.logo" alt="Logo" class="product-logo"></td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.date_release | date:'shortDate' }}</td>
+        <td>{{ product.date_revision | date:'shortDate' }}</td>
+        <td>
+          <app-options-menu [options]="options" (optionSelected)="onOptionSelected($event, product)">
+          </app-options-menu>
+        </td>
       </tr>
+
       <tr *ngIf="displayedProducts.length === 0">
         <td colspan="7">No se encontraron productos.</td>
       </tr>

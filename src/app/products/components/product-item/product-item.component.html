@@ -1,9 +1,0 @@
-<td><img [src]="product.logo" alt="Logo" class="product-logo"></td>
-<td>{{ product.name }}</td>
-<td>{{ product.description }}</td>
-<td>{{ product.date_release | date:'shortDate' }}</td>
-<td>{{ product.date_revision | date:'shortDate' }}</td>
-<td>
-  <button (click)="edit.emit(product)">Editar</button>
-  <button (click)="delete.emit(product)">Eliminar</button>
-</td>

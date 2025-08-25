@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ModalComponent } from './components/modal/modal.component';
 import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { HeaderComponent } from './components/header/header.component';
+import { OptionsMenuComponent } from './components/options-menu/options-menu.component';
 
 
 
@@ -10,13 +11,15 @@ import { HeaderComponent } from './components/header/header.component';
   declarations: [
     ModalComponent,
     SkeletonComponent,
-    HeaderComponent
+    HeaderComponent,
+    OptionsMenuComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    OptionsMenuComponent
   ]
 })
 export class SharedModule { }

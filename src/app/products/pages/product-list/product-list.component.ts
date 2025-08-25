@@ -56,4 +56,18 @@ export class ProductListComponent implements OnInit {
       });
     }
   }
+
+  //Menu dropdown
+  options = [
+    { label: 'Editar', value: 'edit' },
+    { label: 'Eliminar', value: 'delete' }
+  ];
+
+  onOptionSelected(option: any, product: Product) {
+    if (option === 'edit') {
+      this.editProduct(product);
+    } else if (option === 'delete') {
+      this.deleteProduct(product);
+    }
+  }
 }

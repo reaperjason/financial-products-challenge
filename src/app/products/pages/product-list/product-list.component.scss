@@ -30,6 +30,26 @@
   th {
     background-color: #f2f2f2;
   }
+
+  td {
+    padding: 8px 12px;
+    vertical-align: middle;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+
+  /* Ajuste para el logo */
+  .product-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 4px;
+    display: block;
+    margin: auto;
+  }
 }
 
 .footer {

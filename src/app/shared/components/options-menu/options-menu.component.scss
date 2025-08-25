@@ -1,0 +1,41 @@
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+
+.menu-list {
+  position: fixed;
+  display: none;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 120px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.menu-list.show {
+  display: block;
+}
+
+.menu-list li {
+  list-style: none;
+}
+
+.menu-list button {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-list button:hover {
+  background-color: #f0f0f0;
+}
