@@ -70,7 +70,6 @@ export class ProductListComponent implements OnInit {
   }
 
   openDeleteModal(product: Product): void {
-    console.log('open deleyte modal');
     this.modalService.open({ name: product.name, id: product.id });
   }
 

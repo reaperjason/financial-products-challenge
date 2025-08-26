@@ -45,7 +45,7 @@ Sigue estos pasos para levantar el proyecto en tu entorno local:
 
 1.  Clona el repositorio:
     ```bash
-    git clone [URL_DEL_REPOSITORIO]
+    git clone https://github.com/reaperjason/financial-products-challenge.git
     ```
 2.  Navega a la carpeta del proyecto:
     ```bash
