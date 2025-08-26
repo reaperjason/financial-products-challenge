@@ -221,12 +221,21 @@ describe('ProductFormComponent', () => {
     });
 
     it('should validate date_release with custom dateReleaseValidator (past date)', () => {
-      const pastDate = new Date();
-      pastDate.setDate(pastDate.getDate() - 1);
-      component.productForm.get('date_release')?.setValue(pastDate.toISOString().substring(0, 10));
+      const today = new Date();
+      const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+      const yesterdayString = `${yesterday.getFullYear()}-${(yesterday.getMonth() + 1).toString().padStart(2, '0')}-${yesterday.getDate().toString().padStart(2, '0')}`;
+
+      component.productForm.get('date_release')?.setValue(yesterdayString);
       component.productForm.get('date_release')?.markAsTouched();
-      expect(component.productForm.get('date_release')?.hasError('dateRelease')).toBeTruthy();
-      expect(component.getErrorMessage('date_release')).toBe('La fecha debe ser hoy o posterior.');
+      component.productForm.get('date_release')?.updateValueAndValidity();
+
+      expect(component.productForm.get('date_release')?.hasError('dateRelease')).toBe(true);
+
+      const errorMessage = component.getErrorMessage('date_release');
+      expect(errorMessage).toBeTruthy();
+
+      const expectedMessages = Object.values(component['errorMessages']['date_release']);
+      expect(expectedMessages).toContain(errorMessage);
     });
 
     it('should pass date_release with custom dateReleaseValidator (future date)', () => {

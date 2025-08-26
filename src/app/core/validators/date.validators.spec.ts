@@ -26,9 +26,10 @@ describe('Validators', () => {
     });
 
     it('should return { dateRelease: true } for an invalid date (past)', () => {
-      const pastDate = new Date();
-      pastDate.setDate(pastDate.getDate() - 1);
-      control = new FormControl(pastDate.toISOString().substring(0, 10));
+      const today = new Date();
+      const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+      const yesterdayString = `${yesterday.getFullYear()}-${(yesterday.getMonth() + 1).toString().padStart(2, '0')}-${yesterday.getDate().toString().padStart(2, '0')}`;
+      control = new FormControl(yesterdayString);
       expect(validator(control)).toEqual({ dateRelease: true });
     });
 
