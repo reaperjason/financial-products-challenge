@@ -4,6 +4,7 @@ import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { HeaderComponent } from './components/header/header.component';
 import { OptionsMenuComponent } from './components/options-menu/options-menu.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 
 
 
@@ -13,7 +14,8 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
     SkeletonComponent,
     HeaderComponent,
     OptionsMenuComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ErrorModalComponent
   ],
   imports: [
     CommonModule
@@ -21,7 +23,8 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
   exports: [
     HeaderComponent,
     OptionsMenuComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ErrorModalComponent
   ]
 })
 export class SharedModule { }

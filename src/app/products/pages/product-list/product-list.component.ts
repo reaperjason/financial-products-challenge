@@ -38,7 +38,7 @@ export class ProductListComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        console.error(err);
+        this.modalService.handleBackendError();
         this.isLoading = false;
       }
     });
@@ -65,12 +65,14 @@ export class ProductListComponent implements OnInit {
   deleteProduct(productId: string): void {
     this.productService.deleteProduct(productId).subscribe({
       next: () => this.loadProducts(),
-      error: (err) => console.error(err)
+      error: (err) => {
+        this.modalService.handleBackendError();
+      }
     });
   }
 
   openDeleteModal(product: Product): void {
-    this.modalService.open({ name: product.name, id: product.id });
+    this.modalService.openConfirmationModal({ name: product.name, id: product.id });
   }
 
   //Menu dropdown

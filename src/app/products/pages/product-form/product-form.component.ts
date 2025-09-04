@@ -5,6 +5,7 @@ import { catchError, debounceTime, distinctUntilChanged, filter, first, map, Obs
 import { ProductService } from 'src/app/core/services/product.service';
 import { Product } from '../../models/product.model';
 import { dateReleaseValidator, dateRevisionValidator } from 'src/app/core/validators/date.validators';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-product-form',
@@ -52,7 +53,9 @@ export class ProductFormComponent implements OnInit {
     private fb: FormBuilder,
     private productService: ProductService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: ModalService
+
   ) { }
 
   ngOnInit(): void {
@@ -105,17 +108,21 @@ export class ProductFormComponent implements OnInit {
 
     if (this.isEditMode) {
       this.productForm.get('id')?.disable();
-      this.productService.getProducts().subscribe(products => {
-        const productToEdit = products.find(p => p.id === this.productId);
-        if (productToEdit) {
-          const formattedProduct = { ...productToEdit };
+      this.productService.getProducts().subscribe({
+        next: (products: any) => {
+          const productToEdit = products.find((p: any) => p.id === this.productId);
+          if (productToEdit) {
+            const formattedProduct = { ...productToEdit };
 
-          // Formatear las fechas al formato 'yyyy-MM-dd'
-          formattedProduct.date_release = this.formatDate(productToEdit.date_release);
-          formattedProduct.date_revision = this.formatDate(productToEdit.date_revision);
-          this.productForm.patchValue(formattedProduct);
-        } else {
-          this.router.navigate(['/products']);
+            // Formatear las fechas al formato 'yyyy-MM-dd'
+            formattedProduct.date_release = this.formatDate(productToEdit.date_release);
+            formattedProduct.date_revision = this.formatDate(productToEdit.date_revision);
+            this.productForm.patchValue(formattedProduct);
+          } else {
+            this.router.navigate(['/products']);
+          }
+        }, error: (err) => {
+          this.modalService.handleBackendError();
         }
       });
     }
@@ -147,7 +154,11 @@ export class ProductFormComponent implements OnInit {
             return of(null);
           }
           return this.productService.verifyProductId(id).pipe(
-            map(exists => exists ? { idExists: true } : null)
+            map(exists => exists ? { idExists: true } : null),
+            catchError(err => {
+              this.modalService.handleBackendError();
+              return of(null);
+            })
           );
         }),
         take(1)
@@ -178,12 +189,16 @@ export class ProductFormComponent implements OnInit {
       if (this.isEditMode) {
         this.productService.updateProduct(this.productId!, product).subscribe({
           next: () => this.router.navigate(['/products']),
-          error: (err) => console.error(err)
+          error: (err) => {
+            this.modalService.handleBackendError();
+          }
         });
       } else {
         this.productService.createProduct(product).subscribe({
           next: () => this.router.navigate(['/products']),
-          error: (err) => console.error(err)
+          error: (err) => {
+            this.modalService.handleBackendError();
+          }
         });
       }
     }

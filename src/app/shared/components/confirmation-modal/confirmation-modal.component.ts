@@ -18,7 +18,7 @@ export class ConfirmationModalComponent {
   constructor(private modalService: ModalService) { }
 
   ngOnInit(): void {
-    this.subscription = this.modalService.data.subscribe(data => {
+    this.subscription = this.modalService.confirmModalState$.subscribe(data => {
       if (data) {
         this.productName = data.name;
         this.productId = data.id;
@@ -36,11 +36,11 @@ export class ConfirmationModalComponent {
   }
 
   closeModal(): void {
-    this.modalService.close();
+    this.modalService.closeConfirmationModal(false);
   }
 
   confirmDelete(): void {
     this.confirmed.emit(this.productId);
-    this.modalService.close();
+    this.modalService.closeConfirmationModal(false);
   }
 }
